@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detaily</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: gainsboro;
+      margin: 0;
+      padding: 0;
+    }
+
+    fieldset {
+      border: 2px solid black;
+      padding: 20px;
+      margin: 20px;
+      border-radius: 8px;
+      background-color: gray;
+      background-size: cover;
+      background-position: center;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      width: 50%; /* Adjust width for the options section */
+    }
+
+    .review-option {
+      display: flex;
+      align-items: center;
+      background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background for the review frame */
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 10px; /* Space between review options */
+      border: 2px solid gray;
+      box-sizing: border-box;
+    }
+
+    .review-option input[type="radio"] {
+      margin-right: 10px;  /* Space between radio button and text */
+      vertical-align: middle; /* Vertically align the radio button with the text */
+    }
+
+    .review-option label {
+      font-size: 1.1em;
+      margin-left: 8px;
+      text-shadow: 1px 1px 2px #000;
+    }
+
+    .book-image-frame {
+      width: 250px;
+      height: 350px;
+      border: 3px solid black;
+      padding: 10px;
+      box-sizing: border-box;
+      background-color: black;
+    }
+
+    .book-image-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    legend {
+      font-size: 1.5em;
+      color: #fff;
+      text-shadow: 1px 1px 2px white;
+    }
+
+    h1 {
+      color: white;
+      text-shadow: 10px 10px 5px black;
+    }
+
+    input[type="submit"], .return-home {
+      margin-left: 20px;
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1.1em;
+      transition: background-color 0.3s;
+    }
+
+    input[type="submit"]:hover, .return-home:hover {
+      background-color: yellow;
+    }
+
+    .error-message {
+      color: red;
+      font-weight: bold;
+    }
+
+    /* Additional styling for the "Return to Homepage" button */
+    .return-home {
+      background-color: #4CAF50; /* Same as submit button */
+      margin-left: 10px;
+    }
+
+    /* Align buttons to the right */
+    .button-container {
+      display: flex;
+      justify-content: flex-start; /* This aligns buttons to the right */
+      width: 100%;
+    }
+    .container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  margin-top: 40px;
+}
+
+footer p {
+  margin: 5px;
+  font-size: 1em;
+}
+  </style>
+</head>
+<body>
+  <form action="{% url 'books:rating' book.id %}" method="post">
+    {% csrf_token %}
+    <fieldset>
+      <legend><h1>{{ book.title }}</h1></legend>
+      {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+      
+      <!-- Added options container -->
+      <div class="options-container">
+        {% for review in book.review_set.all %}
+          <div class="review-option">
+            <input type="radio" name="review" id="review{{ forloop.counter }}" value="{{ review.id }}">
+            <label for="review{{ forloop.counter }}">{{ review.review_text }}</label>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="book-image-frame">
+        <img src="{{ book.image.url }}" alt="Book Image">
+      </div>
+    </fieldset>
+
+    <div class="button-container">
+      <input type="submit" value="Hlasovať">
+      <a href="http://127.0.0.1:8000"><button type="button" class="return-home">Naspsať  na domovskú stránku</button></a>
+    </div>
+  </form>
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Book Library. All Rights Reserved.</p>
+      <p>Nadizajnované pre Django.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

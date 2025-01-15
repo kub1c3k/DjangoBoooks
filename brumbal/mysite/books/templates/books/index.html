@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kolekcia kníh</title>
+  <link rel="stylesheet" href="C:\brumbal\mysite\books\static\books\style.css">
+  <link rel="icon" type="image/x-icon" href="{% static 'books/images/favicon.png' %}">
+</head>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    color: #333;
+  }
+
+  .container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  header {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+  }
+
+  header h1 {
+    font-size: 2.5em;
+    margin: 0;
+  }
+
+  header nav ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  header nav ul li {
+    display: inline-block;
+    margin-right: 15px;
+  }
+
+  header nav ul li a {
+    color: #333;
+    text-decoration: none;
+    font-size: 1.1em;
+  }
+
+  header nav ul li a:hover {
+    text-decoration: underline;
+  }
+
+  main {
+    padding: 40px 0;
+    background-color: white;
+  }
+
+  h2 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 30px;
+    color: #333;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0 auto;
+    width: 80%;
+    max-width: 800px;
+  }
+
+  li {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-size: 1.2em;
+    color:#333;
+  }
+
+  li a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+  }
+
+  li a:hover {
+    color: #4CAF50;
+    text-decoration: underline;
+  }
+
+  footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+  }
+
+  footer p {
+    margin: 5px;
+    font-size: 1em;
+  }
+
+  /* Responsive design for smaller screens */
+  @media (max-width: 768px) {
+    header h1 {
+      font-size: 1.8em;
+    }
+
+    header nav ul li {
+      display: block;
+      margin-right: 0;
+    }
+
+    ul {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    li {
+      font-size: 1.1em;
+      padding: 10px;
+    }
+  }
+</style>
+
+<body>
+  <header>
+    <div class="container">
+      <h1>Kolekcia kníh</h1>
+      <nav>
+        <ul>
+          <li><a href="#">Domov</a></li>
+          <li><a href="{%url 'books:register' %}">Prihlásenie</a></li>
+          <li><a href="{%url 'books:login' %}">Registrácia</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <h2>Najnovšie hodnotenia</h2>
+
+      {% if latest_book_list %}
+        <ul>
+          {% for book in latest_book_list %}
+            <li><a href="{% url 'books:detail' book.id %}">{{ book.title }} - {{ book.author }}</a></li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>Currently, we have no books to display.</p>
+      {% endif %}
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Kolekcia kníh. Všetky práva vyhradené.</p>
+      <p>Dizajnované pre Django.</p>
+    </div>
+  </footer>
+</body>
+</html>
