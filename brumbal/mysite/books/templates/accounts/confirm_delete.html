@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vymazanie účtu</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS file -->
+    <style>
+   /* General styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+/* Container */
+.container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Header */
+h2 {
+    color: #e74c3c;
+}
+
+/* Paragraph */
+p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+/* Buttons */
+.btn {
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    margin: 5px;
+}
+
+.btn-danger {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+}
+
+.btn-secondary {
+    background-color: #7f8c8d;
+    color: white;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background-color: #34495e;
+}
+
+/* Hover effects */
+a:hover, button:hover {
+    cursor: pointer;
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Potvrdenie vymazania</h2>
+        <p>Ste si istý, že chcete vymazať svoj účet, {{ user.username }}? Tento krok nie je možné vrátiť späť.</p>
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Áno, vymažte môj účet</button>
+            <a href="{% url 'books:index' %}" class="btn btn-secondary">Zrušiť</a>
+        </form>
+    </div>
+</body>
+</html>
