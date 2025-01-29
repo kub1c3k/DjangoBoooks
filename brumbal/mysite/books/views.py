@@ -22,30 +22,29 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django import forms
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views import generic
+from .models import Book
+from django.utils import timezone
 
 
-
-
-class IndexView(generic.ListView):
+class IndexView(LoginRequiredMixin, generic.ListView):
     template_name = "books/index.html"
     context_object_name = "latest_book_list"
 
     def get_queryset(self):
         return Book.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:12]
 
-
-class DetailView(generic.DetailView):
+class DetailView(LoginRequiredMixin, generic.DetailView):
     model = Book
     template_name = "books/detail.html"
 
     def get_queryset(self):
         return Book.objects.filter(pub_date__lte=timezone.now())
 
-
-class ResultsView(generic.DetailView):
+class ResultsView(LoginRequiredMixin, generic.DetailView):
     model = Book
     template_name = "books/results.html"
-
 
 def rating(request, book_id):
     book = get_object_or_404(Book, pk=book_id)
@@ -63,7 +62,7 @@ def rating(request, book_id):
         redirect_url = reverse("books:results", args=(book.id,))
         print("Redirecting to:", redirect_url)
         return render(request, "books/results.html", {"book": book})
-    
+        
 def register(request):
     message = " "
     if request.method == "POST":
@@ -153,7 +152,7 @@ class CustomUserCreationForm(UserCreationForm):
 
     username = forms.CharField(
         label="Používateľské meno",
-        help_text="Používateľské meno musí obsahovať iba písmená, číslice a znaky @/./+/-/_.",
+        help_text="<br> musí obsahovať iba písmená, číslice a znaky @/./+/-/_.",
         error_messages={
             'required': 'Toto pole je povinné.',
             'max_length': 'Používateľské meno nemôže byť dlhšie ako 150 znakov.',
@@ -165,7 +164,7 @@ class CustomUserCreationForm(UserCreationForm):
     password1 = forms.CharField(
         label="Heslo",
         widget=forms.PasswordInput(),  # This masks the password input
-        help_text="Heslo musí mať minimálne 8 znakov a nemôže byť rovnaké ako iné osobné údaje.",
+        help_text="<br> Heslo musí mať minimálne 8 znakov a nemôže byť rovnaké ako iné osobné údaje.",
         error_messages={
             'required': 'Toto pole je povinné.',
             'min_length': 'Heslo musí mať aspoň 8 znakov.',
@@ -176,7 +175,7 @@ class CustomUserCreationForm(UserCreationForm):
     password2 = forms.CharField(
         label="Potvrď heslo",
         widget=forms.PasswordInput(),  # This masks the password input
-        help_text="Zadajte to isté heslo pre overenie.",
+        help_text="<br> Zadajte to isté heslo pre overenie.",
         error_messages={
             'required': 'Toto pole je povinné.',
             'mismatch': 'Heslá sa musia zhodovať.',

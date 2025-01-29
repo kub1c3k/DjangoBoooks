@@ -154,7 +154,7 @@ li.message.error {
 <div class="form-container">
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}  <!-- This will render the form with your custom help texts -->
+        <br> {{ form.as_p }} <br>  <!-- This will render the form with your custom help texts -->
         <button type="submit" class="submit-button">Zaregistrovať</button>
     </form>
     <a href="{% url 'books:login' %}" class="nonreg">Ste už zaregistrovaný?</a>
