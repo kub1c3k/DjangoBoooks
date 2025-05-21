@@ -16,10 +16,7 @@ urlpatterns = [
     path("<int:pk>/", views.DetailView.as_view(), name="detail"),
     path("<int:pk>/results/", views.ResultsView.as_view(), name="results"),
     path("<int:book_id>/rating/", views.rating, name="rating"),
-    path('register/', views.register, name='register'),
-    path('login/', views.login_view, name='login'),
-    path('logout/', views.logout_view, name='logout'),
-    path('delete_user/<int:pk>/', views.delete_user, name='delete_user'),
+
 
 ]
 if settings.DEBUG:
